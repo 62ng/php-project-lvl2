@@ -1,0 +1,11 @@
+{
+    "name": "62ng/generate-diff",
+    "description": "Calculate the difference between files",
+    "authors": [
+        {
+            "name": "Andrey Frolov",
+            "email": "internet.buro@gmail.com"
+        }
+    ],
+    "require": {}
+}
