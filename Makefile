@@ -1,0 +1,2 @@
+gendiff:
+	php ./bin/gendiff

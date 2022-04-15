@@ -7,5 +7,16 @@
             "email": "internet.buro@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "files": [
+            "src/Gendiff.php"
+        ],
+        "psr-4": {
+            "Gendiff\\": "src",
+            "Gendiff\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
 }
