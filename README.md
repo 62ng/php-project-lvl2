@@ -1,6 +1,9 @@
 ## Hexlet tests and linter status:
 [![Actions Status](https://github.com/62ng/php-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/62ng/php-project-lvl2/actions)
 
+## Additional tests:
+[![Actions Status](https://github.com/62ng/php-project-lvl2/workflows/run_tests/badge.svg)](https://github.com/62ng/php-project-lvl2/actions)
+
 ## Requirements
 
 * PHP >= 7.4
