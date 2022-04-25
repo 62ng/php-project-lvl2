@@ -3,6 +3,8 @@
 
 ## Additional tests:
 [![Actions Status](https://github.com/62ng/php-project-lvl2/workflows/run_tests/badge.svg)](https://github.com/62ng/php-project-lvl2/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e1b69b4455839ce19867/maintainability)](https://codeclimate.com/github/62ng/php-project-lvl2/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e1b69b4455839ce19867/test_coverage)](https://codeclimate.com/github/62ng/php-project-lvl2/test_coverage)
 
 ## Requirements
 
