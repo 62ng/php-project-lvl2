@@ -14,11 +14,9 @@ function parseFile(string $filePath): array
     $fileData = file_get_contents($filePath);
     if (in_array($extension, ['yaml', 'yml'])) {
         return Yaml::parse($fileData);
-    }
-    elseif ($extension === 'json') {
+    } elseif ($extension === 'json') {
         return json_decode($fileData, true);
-    }
-    else {
+    } else {
         throw new \Exception('Unknown file extension!');
     }
 }
