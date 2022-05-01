@@ -3,6 +3,7 @@
 namespace Differ\Phpunit\Tests;
 
 use PHPUnit\Framework\TestCase;
+
 use function Differ\genDiff;
 
 class DifferTest extends TestCase
@@ -18,8 +19,8 @@ class DifferTest extends TestCase
 \t+ verbose: true
 }\n";
 
-        $filePath1 = __DIR__ . '/../src/files/file1.json';
-        $filePath2 = __DIR__ . '/../src/files/file2.json';
+        $filePath1 = __DIR__ . '/../src/files/file1.yaml';
+        $filePath2 = __DIR__ . '/../src/files/file2.yaml';
 
         $this->assertEquals($expected, genDiff($filePath1, $filePath2));
     }

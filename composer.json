@@ -10,8 +10,8 @@
     ],
     "autoload": {
         "files": [
+            "src/Cli.php",
             "src/Differ.php",
-            "src/YamlDiffer.php",
             "src/Parsers.php"
         ],
         "psr-4": {

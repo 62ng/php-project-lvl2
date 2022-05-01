@@ -10,11 +10,14 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use function YamlDiffer\genDiff;
+use function Cli\runDocopt;
+use function Differ\genDiff;
 
-//$file1 = $_SERVER['DOCUMENT_ROOT'] . 'src/file1.json';
-$filePath1 = 'src/files/file1.yaml';
-//$file2 = $_SERVER['DOCUMENT_ROOT'] . 'src/file2.json';
-$filePath2 = 'src/files/file2.yaml';
-$diff = genDiff($filePath1, $filePath2);
-print_r($diff);
+//runDocopt();
+$args = runDocopt();
+print_r(genDiff($args['<firstFile>'], $args['<secondFile>']));
+
+//if (key_exists('<firstFile>', $args) && key_exists('<secondFile>', $args)) {
+//    echo 'fffff';
+//    genDiff($args['<firstFile>'], $args['<secondFile>']);
+//}
