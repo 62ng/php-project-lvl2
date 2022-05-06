@@ -11,17 +11,53 @@ class DifferTest extends TestCase
     public function testGenDiff(): void
     {
         $expected = "{
-\t- follow: false
-\t  host: hexlet.io
-\t- proxy: 123.234.53.22
-\t- timeout: 50
-\t+ timeout: 20
-\t+ verbose: true
-}\n";
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: NULL
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}";
 
-        $filePath1 = __DIR__ . '/../src/files/file1.yaml';
-        $filePath2 = __DIR__ . '/../src/files/file2.yaml';
+        $filePath1 = __DIR__ . '/../src/files/file11.yaml';
+        $filePath2 = __DIR__ . '/../src/files/file22.yaml';
 
-        $this->assertEquals($expected, genDiff($filePath1, $filePath2));
+        $this->assertEquals($expected, genDiff($filePath1, $filePath2, 'stylish'));
     }
 }

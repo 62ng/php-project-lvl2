@@ -15,9 +15,5 @@ use function Differ\genDiff;
 
 //runDocopt();
 $args = runDocopt();
-print_r(genDiff($args['<firstFile>'], $args['<secondFile>']));
-
-//if (key_exists('<firstFile>', $args) && key_exists('<secondFile>', $args)) {
-//    echo 'fffff';
-//    genDiff($args['<firstFile>'], $args['<secondFile>']);
-//}
+dump($args);
+genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']);
