@@ -17,45 +17,27 @@ function genDiff(string $filePath1, string $filePath2, string $formatter)
         $diffs = [];
         foreach ($keys as $key => $value) {
             if (!key_exists($key, $currentData2)) {
-                if (is_array($value)) {
-                    $diffs[$key]['children'] = $value;
-                    $diffs[$key]['sign'] = '-';
-                    continue;
-                }
-                $diffs["{$key}: " . toString($value)] = '-';
+                $diffs[$key]['type'] = 'deleted';
+                $diffs[$key]['deleted'] = $value;
                 continue;
             }
             if (!key_exists($key, $currentData1)) {
-                if (is_array($value)) {
-                    $diffs[$key]['children'] = $value;
-                    $diffs[$key]['sign'] = '+';
-                    continue;
-                }
-                $diffs["{$key}: " . toString($value)] = '+';
-                continue;
-            }
-            if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
-                $diffs[$key]['children'] = $iter($currentData1[$key], $currentData2[$key]);
-                continue;
-            }
-            if (is_array($currentData1[$key])) {
-                $diffs[$key]['children'] = $currentData1[$key];
-                $diffs[$key]['sign'] = '-';
-                $diffs["{$key}: " . toString($currentData2[$key])] = '+';
-                continue;
-            }
-            if (is_array($currentData2[$key])) {
-                $diffs["{$key}: " . toString($currentData1[$key])] = '-';
-                $diffs[$key]['children'] = $currentData2[$key];
-                $diffs[$key]['sign'] = '+';
+                $diffs[$key]['type'] = 'added';
+                $diffs[$key]['added'] = $value;
                 continue;
             }
             if ($currentData1[$key] === $currentData2[$key]) {
-                $diffs["{$key}: " . toString($value)] = ' ';
+                $diffs[$key]['type'] = 'unchanged';
+                $diffs[$key]['unchanged'] = $currentData1[$key];
                 continue;
             }
-            $diffs["{$key}: " . toString($currentData1[$key])] = '-';
-            $diffs["{$key}: " . toString($currentData2[$key])] = '+';
+            $diffs[$key]['type'] = 'changed';
+            if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
+                $diffs[$key]['changed'] = $iter($currentData1[$key], $currentData2[$key]);
+                continue;
+            }
+            $diffs[$key]['deleted'] = $currentData1[$key];
+            $diffs[$key]['added'] = $currentData2[$key];
         }
 
         return $diffs;
@@ -65,9 +47,4 @@ function genDiff(string $filePath1, string $filePath2, string $formatter)
     if ($formatter === 'stylish') {
         return stylish($diffs);
     }
-}
-
-function toString($value): string
-{
-    return trim(var_export($value, true), "'");
 }

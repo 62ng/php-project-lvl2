@@ -4,7 +4,7 @@ namespace Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parseFile(string $filePath): array
+function parseFile(string $filePath)
 {
     if (!file_exists($filePath)) {
         throw new \Exception('Incorrect file path!');

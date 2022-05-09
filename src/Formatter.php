@@ -4,22 +4,36 @@ namespace Formatter;
 
 function stylish($diffs): string
 {
-    $iter = function ($currentDiffs, $depth, $signed = false) use (&$iter) {
+    $types = [
+        'deleted' => '-',
+        'added' => '+',
+        'changed' => ' ',
+        'unchanged' => ' ',
+        'null' => ' '
+    ];
+    $iter = function ($currentDiffs, $depth) use (&$iter, $types) {
+        if (!is_array($currentDiffs)) {
+            return toString($currentDiffs);
+        }
+
         $indent = str_repeat("    ", $depth - 1);
 
         $lines = array_map(
-            function ($key, $val) use ($indent, $iter, $depth, $signed) {
-                if (is_array($val)) {
-                    if (key_exists('sign', $val)) {
-                        $indent .= "  {$val['sign']} ";
-                        $signed = true;
-                    } else {
-                        $indent .= "    ";
-                    }
-                    $value = (key_exists('children', $val)) ? $val['children'] : $val;
-                    return "{$indent}{$key}: {$iter($value, $depth + 1, $signed)}";
+            function ($key, $val) use ($iter, $indent, $depth, $types) {
+                if (!is_array($val)) {
+                    $indent = str_repeat("    ", $depth);
+                    return "{$indent}{$key}: " . toString($val);
                 }
-                return "{$indent}" . ($signed ? "    {$key}: {$val}" : "  {$val} {$key}");
+                if (!key_exists('type', $val)) {
+                    $currentDiff = $val;
+                    $val['type'] = 'null';
+                } elseif (!key_exists($val['type'], $val)) {
+                    return "{$indent}  {$types['deleted']} {$key}: {$iter($val['deleted'], $depth + 1)}" . PHP_EOL
+                        . "{$indent}  {$types['added']} {$key}: {$iter($val['added'], $depth + 1)}";
+                } else {
+                    $currentDiff = $val[$val['type']];
+                }
+                return "{$indent}  {$types[$val['type']]} {$key}: {$iter($currentDiff, $depth + 1)}";
             },
             array_keys($currentDiffs),
             $currentDiffs
@@ -31,4 +45,9 @@ function stylish($diffs): string
     };
 
     return $iter($diffs, 1);
+}
+
+function toString($value): string
+{
+    return trim(var_export($value, true), "'");
 }
