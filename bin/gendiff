@@ -16,4 +16,4 @@ use function Differ\genDiff;
 //runDocopt();
 $args = runDocopt();
 //dump($args);
-dump(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']));
+print_r(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']) . PHP_EOL);

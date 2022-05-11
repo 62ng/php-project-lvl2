@@ -1,6 +1,8 @@
 <?php
 
-namespace Formatter;
+namespace Formatters\Stylish;
+
+use function Formatters\toString;
 
 function stylish($diffs): string
 {
@@ -44,10 +46,6 @@ function stylish($diffs): string
         return implode(PHP_EOL, $result);
     };
 
+//    return dump($iter($diffs, 1));
     return $iter($diffs, 1);
-}
-
-function toString($value): string
-{
-    return trim(var_export($value, true), "'");
 }

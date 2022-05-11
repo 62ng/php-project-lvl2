@@ -13,7 +13,9 @@
             "src/Cli.php",
             "src/Differ.php",
             "src/Parser.php",
-            "src/Formatter.php"
+            "src/Formatters.php",
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Plain.php"
         ],
         "psr-4": {
             "Gendiff\\": "src",

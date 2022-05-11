@@ -3,7 +3,7 @@
 namespace Differ;
 
 use function Parser\parseFile;
-use function Formatter\stylish;
+use function Formatters\format;
 
 function genDiff(string $filePath1, string $filePath2, string $formatter)
 {
@@ -44,7 +44,5 @@ function genDiff(string $filePath1, string $filePath2, string $formatter)
     };
     $diffs = $iter($data1, $data2);
 //dump($diffs);
-    if ($formatter === 'stylish') {
-        return stylish($diffs);
-    }
+    return format($diffs, $formatter);
 }
