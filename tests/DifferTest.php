@@ -86,4 +86,17 @@ Property 'group3' was added with value: [complex value]";
         $filePathJson2 = __DIR__ . '/../src/files/file22.json';
         $this->assertEquals($expected, genDiff($filePathJson1, $filePathJson2, 'plain'));
     }
+
+    public function testJsonGenDiff(): void
+    {
+        $expectedJsonPath = __DIR__ . '/../tests/files/expectedJson.json';
+
+        $filePathYaml1 = __DIR__ . '/../src/files/file11.yaml';
+        $filePathYaml2 = __DIR__ . '/../src/files/file22.yaml';
+        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedJsonPath), genDiff($filePathYaml1, $filePathYaml2, 'json'));
+
+        $filePathJson1 = __DIR__ . '/../src/files/file11.json';
+        $filePathJson2 = __DIR__ . '/../src/files/file22.json';
+        $this->assertJsonStringEqualsJsonString(file_get_contents($expectedJsonPath), genDiff($filePathJson1, $filePathJson2, 'json'));
+    }
 }
