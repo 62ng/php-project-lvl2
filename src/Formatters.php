@@ -1,10 +1,10 @@
 <?php
 
-namespace Formatters;
+namespace Differ\Formatters;
 
-use function Formatters\Stylish\stylish;
-use function Formatters\Plain\plain;
-use function Formatters\Json\json;
+use function Differ\Formatters\Stylish\stylish;
+use function Differ\Formatters\Plain\plain;
+use function Differ\Formatters\Json\json;
 
 function toString($value): string
 {

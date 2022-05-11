@@ -1,8 +1,8 @@
 <?php
 
-namespace Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
-use function Formatters\toString;
+use function Differ\Formatters\toString;
 
 function plain($diffs): string
 {

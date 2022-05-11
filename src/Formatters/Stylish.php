@@ -1,8 +1,8 @@
 <?php
 
-namespace Formatters\Stylish;
+namespace Differ\Formatters\Stylish;
 
-use function Formatters\toString;
+use function Differ\Formatters\toString;
 
 function stylish($diffs): string
 {

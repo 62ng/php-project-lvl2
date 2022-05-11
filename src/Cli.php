@@ -1,6 +1,6 @@
 <?php
 
-namespace Cli;
+namespace Differ\Cli;
 
 use Docopt;
 
