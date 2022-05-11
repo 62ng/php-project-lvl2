@@ -14,4 +14,4 @@
 
 ## Asciinemas
 ### run gendiff
-[![asciicast](https://asciinema.org/a/9eAvtVTy3FT0BOqGdlVgJbNLe.svg)](https://asciinema.org/a/9eAvtVTy3FT0BOqGdlVgJbNLe)
+[![asciicast](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe.svg)](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe)
