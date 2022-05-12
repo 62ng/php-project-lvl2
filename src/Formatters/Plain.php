@@ -44,7 +44,7 @@ function plain($diffs): string
 function quotingIfString($value): string
 {
     if (is_bool($value) || is_null($value)) {
-        return strtolower(toString($value));
+        return toString($value);
     }
 
     return "'" . toString($value) . "'";

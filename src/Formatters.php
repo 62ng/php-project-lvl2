@@ -8,7 +8,12 @@ use function Differ\Formatters\Json\json;
 
 function toString($value): string
 {
-    return trim(var_export($value, true), "'");
+    $valueString = trim(var_export($value, true), "'");
+    if (is_bool($value) || is_null($value)) {
+        return strtolower($valueString);
+    }
+
+    return $valueString;
 }
 
 function format($diffs, $formatter)
