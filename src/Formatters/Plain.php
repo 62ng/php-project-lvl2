@@ -4,8 +4,6 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Formatters\toString;
 
-//use function Differ\Formatters\valueFormat;
-
 function plain(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
@@ -16,23 +14,16 @@ function plain(array $diffs): string
                     return "Property '{$keyPath}' was removed";
                 }
                 if ($val['type'] === 'added') {
-                    $value = (is_array($val['added'])) ? '[complex value]' : quotingIfString($val['added']);
-                    /*$value = (is_array($val['added']))
-                    ? '[complex value]' : valueFormat(var_export($val['added']), false);*/
+                    $value = (is_array($val['added'])) ? '[complex value]' : toString($val['added'], true);
                     return "Property '{$keyPath}' was added with value: {$value}";
                 }
                 if ($val['type'] === 'changed') {
                     if (key_exists('changed', $val)) {
                         return $iter($val['changed'], $keyPath);
                     } else {
-                        $valueBefore = (is_array($val['deleted']))
-                            ? '[complex value]'
-                            : quotingIfString($val['deleted']);
-                            /*: valueFormat(var_export($val['deleted']));*/
-                        $valueAfter = (is_array($val['added'])) ? '[complex value]' : quotingIfString($val['added']);
-                        /*$valueAfter = (is_array($val['added']))
-                        ? '[complex value]' : valueFormat(var_export($val['added']), false);*/
-                        return "Property '{$keyPath}' was updated. From {$valueBefore} to {$valueAfter}";
+                        $valBefore = (is_array($val['deleted'])) ? '[complex value]' : toString($val['deleted'], true);
+                        $valAfter = (is_array($val['added'])) ? '[complex value]' : toString($val['added'], true);
+                        return "Property '{$keyPath}' was updated. From {$valBefore} to {$valAfter}";
                     }
                 }
             },
@@ -46,13 +37,4 @@ function plain(array $diffs): string
 
 //    return dump($iter($diffs, ''));
     return $iter($diffs, '');
-}
-
-function quotingIfString($value): string
-{
-    if (is_bool($value) || is_null($value) || is_int($value)) {
-        return toString($value);
-    }
-
-    return "'" . toString($value) . "'";
 }

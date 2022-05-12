@@ -4,8 +4,6 @@ namespace Differ\Formatters\Stylish;
 
 use function Differ\Formatters\toString;
 
-//use function Differ\Formatters\valueFormat;
-
 function stylish(array $diffs): string
 {
     $types = [
@@ -18,7 +16,6 @@ function stylish(array $diffs): string
     $iter = function ($currentDiffs, $depth) use (&$iter, $types) {
         if (!is_array($currentDiffs)) {
             return toString($currentDiffs);
-//            return valueFormat(var_export($currentDiffs, true), false);
         }
 
         $indent = str_repeat("    ", $depth - 1);
@@ -28,7 +25,6 @@ function stylish(array $diffs): string
                 if (!is_array($val)) {
                     $indent = str_repeat("    ", $depth);
                     return "{$indent}{$key}: " . toString($val);
-                    /*return "{$indent}{$key}: " . valueFormat(var_export($val, true), false);*/
                 }
                 if (!key_exists('type', $val)) {
                     $currentDiff = $val;
