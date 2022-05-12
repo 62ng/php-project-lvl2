@@ -12,6 +12,13 @@
 * PHP >= 7.4
 * [docopt/docopt.php](https://github.com/docopt/docopt.php)
 
+## Setup
+
+```sh
+$ git clone git@github.com:62ng/php-project-lvl2.git
+$ make install
+```
+
 ## Asciinemas
 ### run gendiff
 [![asciicast](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe.svg)](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe)
