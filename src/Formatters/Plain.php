@@ -4,6 +4,8 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Formatters\toString;
 
+//use function Differ\Formatters\valueFormat;
+
 function plain(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
@@ -15,6 +17,8 @@ function plain(array $diffs): string
                 }
                 if ($val['type'] === 'added') {
                     $value = (is_array($val['added'])) ? '[complex value]' : quotingIfString($val['added']);
+                    /*$value = (is_array($val['added']))
+                    ? '[complex value]' : valueFormat(var_export($val['added']), false);*/
                     return "Property '{$keyPath}' was added with value: {$value}";
                 }
                 if ($val['type'] === 'changed') {
@@ -24,7 +28,10 @@ function plain(array $diffs): string
                         $valueBefore = (is_array($val['deleted']))
                             ? '[complex value]'
                             : quotingIfString($val['deleted']);
+                            /*: valueFormat(var_export($val['deleted']));*/
                         $valueAfter = (is_array($val['added'])) ? '[complex value]' : quotingIfString($val['added']);
+                        /*$valueAfter = (is_array($val['added']))
+                        ? '[complex value]' : valueFormat(var_export($val['added']), false);*/
                         return "Property '{$keyPath}' was updated. From {$valueBefore} to {$valueAfter}";
                     }
                 }
