@@ -6,7 +6,7 @@ use function Differ\Formatters\Stylish\stylish;
 use function Differ\Formatters\Plain\plain;
 use function Differ\Formatters\Json\json;
 
-function toString($value): string
+function toString($value)
 {
     $valueString = trim(var_export($value, true), "'");
     if (is_bool($value) || is_null($value)) {
@@ -16,7 +16,7 @@ function toString($value): string
     return $valueString;
 }
 
-function format($diffs, $formatter)
+function format(array $diffs, string $formatter): string
 {
     if ($formatter === 'stylish') {
         return stylish($diffs);
