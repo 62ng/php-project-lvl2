@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use function Differ\Parser\parseFile;
 use function Differ\Formatters\format;
 
-function genDiff(string $filePath1, string $filePath2, string $formatter)
+function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish')
 {
     $data1 = parseFile($filePath1);
     $data2 = parseFile($filePath2);
