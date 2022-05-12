@@ -1,5 +1,5 @@
 {
-    "name": "62ng/generate-diff",
+    "name": "hexlet/code",
     "bin": ["bin/gendiff"],
     "description": "Calculate the difference between files",
     "authors": [
