@@ -6,7 +6,7 @@ use function Differ\Formatters\Stylish\stylish;
 use function Differ\Formatters\Plain\plain;
 use function Differ\Formatters\Json\json;
 
-function toString($value)
+function toString(mixed $value): string
 {
     $valueString = trim(var_export($value, true), "'");
     if (is_bool($value) || is_null($value)) {

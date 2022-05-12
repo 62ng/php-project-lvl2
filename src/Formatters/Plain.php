@@ -4,7 +4,7 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Formatters\toString;
 
-function plain($diffs): string
+function plain(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
         $lines = array_map(

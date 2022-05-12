@@ -4,7 +4,7 @@ namespace Differ\Formatters\Stylish;
 
 use function Differ\Formatters\toString;
 
-function stylish($diffs): string
+function stylish(array $diffs): string
 {
     $types = [
         'deleted' => '-',
