@@ -13,7 +13,7 @@ use function Differ\Formatters\Json\json;
  */
 function toString(mixed $value, bool $isQuoted = false): string
 {
-    $valueString = trim(var_export($value, true), "'");
+    $valueString = trim(var_export($value, true), "' ");
     if (is_null($value)) {
         return strtolower($valueString);
     }
