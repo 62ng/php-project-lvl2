@@ -46,6 +46,5 @@ function stylish(array $diffs): string
         return implode(PHP_EOL, $result);
     };
 
-//    return dump($iter($diffs, 1));
     return $iter($diffs, 1);
 }

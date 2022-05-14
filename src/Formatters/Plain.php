@@ -35,6 +35,5 @@ function plain(array $diffs): string
         return implode(PHP_EOL, $lines);
     };
 
-//    return dump($iter($diffs, ''));
     return $iter($diffs, '');
 }

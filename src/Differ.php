@@ -12,7 +12,7 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
 
     $iter = function ($currentData1, $currentData2) use (&$iter) {
         $keys = array_merge($currentData1, $currentData2);
-//        ksort($keys);
+        ksort($keys);
 
         $diffs = [];
         foreach ($keys as $key => $value) {
@@ -43,6 +43,6 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
         return $diffs;
     };
     $diffs = $iter($data1, $data2);
-//dump($diffs);
+
     return format($diffs, $formatter);
 }
