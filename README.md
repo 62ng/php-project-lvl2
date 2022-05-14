@@ -9,8 +9,7 @@
 
 ## Requirements
 
-* PHP >= 7.4
-* [docopt/docopt.php](https://github.com/docopt/docopt.php)
+* PHP >= 8.1.5
 
 ## Setup
 
@@ -20,5 +19,14 @@ $ make install
 ```
 
 ## Asciinemas
-### run gendiff
+### show diff between two flat .json files
+[![asciicast](https://asciinema.org/a/VJ6yHqZu4tIx38a5cFkE5J6FX.svg)](https://asciinema.org/a/VJ6yHqZu4tIx38a5cFkE5J6FX)
+
+### show diff between two files with nested data
+[![asciicast](https://asciinema.org/a/s4D6f6RiXaBhcpEHGodFoNHPu.svg)](https://asciinema.org/a/s4D6f6RiXaBhcpEHGodFoNHPu)
+
+### show diff between two files in plain format
+[![asciicast](https://asciinema.org/a/9eAvtVTy3FT0BOqGdlVgJbNLe.svg)](https://asciinema.org/a/9eAvtVTy3FT0BOqGdlVgJbNLe)
+
+### show diff between two files in plain, stylish and json formats
 [![asciicast](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe.svg)](https://asciinema.org/a/UKAAfEPWShZi54MIqStid3ENe)
