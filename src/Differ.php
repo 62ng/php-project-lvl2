@@ -34,6 +34,6 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
         }, array_flip($allKeysSorted));
     };
     $diffs = $iter($data1, $data2);
-
+//dump($diffs);
     return format($diffs, $formatter);
 }
