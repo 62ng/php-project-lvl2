@@ -6,11 +6,6 @@ use function Differ\Formatters\Stylish\stylish;
 use function Differ\Formatters\Plain\plain;
 use function Differ\Formatters\Json\json;
 
-/**
- * @param mixed $value
- * @param bool $isQuoted
- * @return string
- */
 function toString(mixed $value, bool $isQuoted = false): string
 {
     $valueString = trim(var_export($value, true), "' ");
