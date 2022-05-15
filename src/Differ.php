@@ -4,6 +4,7 @@ namespace Differ\Differ;
 
 use function Differ\Parser\parseFile;
 use function Differ\Formatters\format;
+use function Functional\sort;
 
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish')
 {
@@ -11,19 +12,20 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
     $data2 = parseFile($filePath2);
 
     $iter = function ($currentData1, $currentData2) use (&$iter) {
-        $keys = array_merge($currentData1, $currentData2);
-        ksort($keys);
+        $mergedData = array_merge($currentData1, $currentData2);
+        $allKeys = array_keys($mergedData);
+        $allKeysSorted = sort($allKeys, fn ($left, $right) => strcmp($left, $right));
 
         $diffs = [];
-        foreach ($keys as $key => $value) {
+        foreach ($allKeysSorted as $key) {
             if (!key_exists($key, $currentData2)) {
                 $diffs[$key]['type'] = 'deleted';
-                $diffs[$key]['deleted'] = $value;
+                $diffs[$key]['deleted'] = $currentData1[$key];
                 continue;
             }
             if (!key_exists($key, $currentData1)) {
                 $diffs[$key]['type'] = 'added';
-                $diffs[$key]['added'] = $value;
+                $diffs[$key]['added'] = $currentData2[$key];
                 continue;
             }
             if ($currentData1[$key] === $currentData2[$key]) {
