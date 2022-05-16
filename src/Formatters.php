@@ -9,11 +9,11 @@ use function Differ\Formatters\Json\json;
 /**
  * Returns string implementation of data
  *
- * @param string|int|bool|null $value
+ * @param mixed $value
  * @param bool $isQuoted
  * @return string
  */
-function toString(string|int|bool|null $value, bool $isQuoted = false): string
+function toString($value, bool $isQuoted = false): string
 {
     $valueString = trim(var_export($value, true), "' ");
     if (is_null($value)) {
