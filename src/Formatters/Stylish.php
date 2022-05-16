@@ -34,14 +34,10 @@ function stylish(array $diffs): string
                         . "{$indent}  " . TYPE_SYMBOLS['added'] . " {$key}: {$iter($val['added'], $depth + 1)}";
                 }
                 return "{$indent}  " . TYPE_SYMBOLS[$val['type']] . " {$key}: {$iter($val[$val['type']], $depth + 1)}";
-            },
-            array_keys($currentDiffs),
-            $currentDiffs
+            }, array_keys($currentDiffs), $currentDiffs
         );
 
-        $result = ['{', ...$lines, "{$indent}}"];
-
-        return implode(PHP_EOL, $result);
+        return implode(PHP_EOL, ['{', ...$lines, "{$indent}}"];
     };
 
     return $iter($diffs, 1);
