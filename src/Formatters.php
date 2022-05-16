@@ -13,7 +13,7 @@ use function Differ\Formatters\Json\json;
  * @param bool $isQuoted
  * @return string
  */
-function toString(mixed $value, bool $isQuoted = false): string
+function toString(string|int|bool|null $value, bool $isQuoted = false): string
 {
     $valueString = trim(var_export($value, true), "' ");
     if (is_null($value)) {
