@@ -26,7 +26,9 @@ function plain(array $diffs): string
                         return "Property '{$keyPathCurrent}' was updated. From {$valBefore} to {$valAfter}";
                     }
                 }
-            }, array_keys($currentDiffs), $currentDiffs
+            },
+            array_keys($currentDiffs),
+            $currentDiffs
         );
 
         return implode(PHP_EOL, array_filter($lines));
