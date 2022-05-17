@@ -16,7 +16,7 @@ function indent(int $depth, string $sign = ' '): string
     return str_repeat("    ", $depth) . ($sign === '}' ? '' : "  {$sign} ");
 }
 
-function stylish(array $diffs): string
+function formatToStylish(array $diffs): string
 {
     $iter = function ($currentDiffs, $depth) use (&$iter) {
         if (!is_array($currentDiffs)) {
