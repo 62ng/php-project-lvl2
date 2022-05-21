@@ -19,8 +19,8 @@ function parseFile(string $filePath)
     $fileData = getContent($filePath);
 
     return match ($extension) {
-        'yaml' => Yaml::parse((string) $fileData),
-        'json' => json_decode((string) $fileData, true),
+        'yaml', 'yml' => Yaml::parse($fileData),
+        'json' => json_decode($fileData, true),
         default => throw new \Exception('Unknown file extension!')
     };
 }
