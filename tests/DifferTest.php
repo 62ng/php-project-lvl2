@@ -8,45 +8,54 @@ use function Differ\Differ\genDiff;
 
 class DifferTest extends TestCase
 {
-    public function testStylishGenDiff(): void
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testStylishGenDiff(string $file1, string $file2): void
     {
-        $expectedPath = __DIR__ . '/../tests/fixtures/expectedStylish.txt';
-        $expected = trim(file_get_contents($expectedPath));
-
-        $filePathYaml1 = __DIR__ . '/../tests/fixtures/file1.yaml';
-        $filePathYaml2 = __DIR__ . '/../tests/fixtures/file2.yaml';
-        $this->assertEquals($expected, genDiff($filePathYaml1, $filePathYaml2));
-
-        $filePathJson1 = __DIR__ . '/../tests/fixtures/file1.json';
-        $filePathJson2 = __DIR__ . '/../tests/fixtures/file2.json';
-        $this->assertEquals($expected, genDiff($filePathJson1, $filePathJson2));
+        $this->assertEquals(
+            $this->getExpected('expectedStylish.txt'),
+            genDiff($this->makePath($file1), $this->makePath($file2))
+        );
     }
 
-    public function testPlainGenDiff(): void
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testPlainGenDiff(string $file1, string $file2): void
     {
-        $expectedPath = __DIR__ . '/../tests/fixtures/expectedPlain.txt';
-        $expected = trim(file_get_contents($expectedPath));
-
-        $filePathYaml1 = __DIR__ . '/../tests/fixtures/file1.yaml';
-        $filePathYaml2 = __DIR__ . '/../tests/fixtures/file2.yaml';
-        $this->assertEquals($expected, genDiff($filePathYaml1, $filePathYaml2, 'plain'));
-
-        $filePathJson1 = __DIR__ . '/../tests/fixtures/file1.json';
-        $filePathJson2 = __DIR__ . '/../tests/fixtures/file2.json';
-        $this->assertEquals($expected, genDiff($filePathJson1, $filePathJson2, 'plain'));
+        $this->assertEquals(
+            $this->getExpected('expectedPlain.txt'),
+            genDiff($this->makePath($file1), $this->makePath($file2), 'plain')
+        );
     }
 
-    public function testJsonGenDiff(): void
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testJsonGenDiff(string $file1, string $file2): void
     {
-        $expectedPath = __DIR__ . '/../tests/fixtures/expectedJson.txt';
-        $expected = trim(file_get_contents($expectedPath));
+        $this->assertJsonStringEqualsJsonString(
+            $this->getExpected('expectedJson.txt'),
+            genDiff($this->makePath($file1), $this->makePath($file2), 'json')
+        );
+    }
 
-        $filePathYaml1 = __DIR__ . '/../tests/fixtures/file1.yaml';
-        $filePathYaml2 = __DIR__ . '/../tests/fixtures/file2.yaml';
-        $this->assertJsonStringEqualsJsonString($expected, genDiff($filePathYaml1, $filePathYaml2, 'json'));
+    public function additionProvider(): array
+    {
+        return [
+            'yaml files' => ['file1.yaml', 'file2.yaml'],
+            'json files' => ['file1.json', 'file2.json']
+        ];
+    }
 
-        $filePathJson1 = __DIR__ . '/../tests/fixtures/file1.json';
-        $filePathJson2 = __DIR__ . '/../tests/fixtures/file2.json';
-        $this->assertJsonStringEqualsJsonString($expected, genDiff($filePathJson1, $filePathJson2, 'json'));
+    public function makePath(string $fileName): string
+    {
+        return __DIR__ . "/../tests/fixtures/{$fileName}";
+    }
+
+    public function getExpected(string $fileName): string
+    {
+        return trim(file_get_contents($this->makePath($fileName)));
     }
 }
