@@ -28,13 +28,10 @@ function toString($value, bool $isQuoted = false): string
 
 function format(array $diffs, string $formatter): string
 {
-    if ($formatter === 'stylish') {
-        return formatToStylish($diffs);
-    } elseif ($formatter === 'plain') {
-        return formatToPlain($diffs);
-    } elseif ($formatter === 'json') {
-        return formatToJson($diffs);
-    } else {
-        throw new \Exception('Unknown report format!');
-    }
+    return match ($formatter) {
+        'stylish' => formatToStylish($diffs),
+        'plain' => formatToPlain($diffs),
+        'json' => formatToJson($diffs),
+        default => throw new \Exception('Unknown report format!')
+    };
 }
