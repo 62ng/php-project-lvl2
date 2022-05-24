@@ -2,14 +2,14 @@
 
 namespace Differ\Differ;
 
-use function Differ\Parser\parseFile;
+use function Differ\Parser\getContent;
 use function Differ\Formatters\format;
 use function Functional\sort;
 
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish')
 {
-    $data1 = parseFile($filePath1);
-    $data2 = parseFile($filePath2);
+    $data1 = getContent($filePath1);
+    $data2 = getContent($filePath2);
 
     $iter = function ($currentData1, $currentData2) use (&$iter) {
         $mergedData = array_merge($currentData1, $currentData2);

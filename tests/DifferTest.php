@@ -23,8 +23,8 @@ class DifferTest extends TestCase
     public function additionProvider(): array
     {
         return [
-            'yaml files' => ['file1.yaml', 'file2.yaml'],
-            'json files' => ['file1.json', 'file2.json'],
+            'yaml files to stylish' => ['file1.yaml', 'file2.yaml'],
+            'json files to stylish' => ['file1.json', 'file2.json'],
             'yaml files to plain' => ['file1.yaml', 'file2.yaml', 'plain'],
             'json files to plain' => ['file1.json', 'file2.json', 'plain'],
             'yaml files to json' => ['file1.yaml', 'file2.yaml', 'json'],
