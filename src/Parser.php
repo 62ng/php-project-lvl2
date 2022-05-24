@@ -16,8 +16,7 @@ function getContent(string $filePath): array
     return parseFile($fileData, $extension);
 }
 
-
-function parseFile(string $fileData, string $extension): array
+function parseFile($fileData, string $extension): array
 {
     return match ($extension) {
         'yaml', 'yml' => Yaml::parse($fileData),

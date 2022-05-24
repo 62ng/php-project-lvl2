@@ -36,7 +36,8 @@ function formatToStylish(array $diffs): string
                         . PHP_EOL
                         . makeIndent($depth, TYPE_SYMBOLS['added']) . "{$key}: {$iter($val['added'], $depth + 1)}";
                 }
-                return makeIndent($depth, TYPE_SYMBOLS[$val['type']]) . "{$key}: {$iter($val[$val['type']], $depth + 1)}";
+                return
+                    makeIndent($depth, TYPE_SYMBOLS[$val['type']]) . "{$key}: {$iter($val[$val['type']], $depth + 1)}";
             },
             array_keys($currentDiffs),
             $currentDiffs
