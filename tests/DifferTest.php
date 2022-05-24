@@ -34,6 +34,7 @@ class DifferTest extends TestCase
 
     public function makePath(string $fileName): string
     {
-        return __DIR__ . "/../tests/fixtures/{$fileName}";
+        $parts = [__DIR__, 'fixtures', $fileName];
+        return realpath(implode('/', $parts));
     }
 }
