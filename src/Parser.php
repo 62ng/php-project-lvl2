@@ -11,12 +11,12 @@ function getContent(string $filePath): array
     }
 
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-    $fileData = file_get_contents($filePath);
+    $fileData = (string) file_get_contents($filePath);
 
     return parseFile($fileData, $extension);
 }
 
-function parseFile($fileData, string $extension): array
+function parseFile(string $fileData, string $extension): array
 {
     return match ($extension) {
         'yaml', 'yml' => Yaml::parse($fileData),
