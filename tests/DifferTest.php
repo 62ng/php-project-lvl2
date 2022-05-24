@@ -13,9 +13,9 @@ class DifferTest extends TestCase
      */
     public function testGenDiff(string $file1, string $file2, string $formatter = 'stylish'): void
     {
-        $assertMethod = $formatter === 'json' ? 'assertJsonStringEqualsJsonString' : 'assertEquals';
+        $assertMethod = $formatter === 'json' ? 'assertJsonStringEqualsJsonFile' : 'assertStringEqualsFile';
         $this->$assertMethod(
-            $this->getExpected('expected' . ucfirst($formatter) . '.txt'),
+            $this->makePath('expected' . ucfirst($formatter) . '.txt'),
             genDiff($this->makePath($file1), $this->makePath($file2), $formatter)
         );
     }
@@ -24,17 +24,16 @@ class DifferTest extends TestCase
     {
         return [
             'yaml files' => ['file1.yaml', 'file2.yaml'],
-            'json files' => ['file1.json', 'file2.json']
+            'json files' => ['file1.json', 'file2.json'],
+            'yaml files to plain' => ['file1.yaml', 'file2.yaml', 'plain'],
+            'json files to plain' => ['file1.json', 'file2.json', 'plain'],
+            'yaml files to json' => ['file1.yaml', 'file2.yaml', 'json'],
+            'json files to json' => ['file1.json', 'file2.json', 'json']
         ];
     }
 
     public function makePath(string $fileName): string
     {
         return __DIR__ . "/../tests/fixtures/{$fileName}";
-    }
-
-    public function getExpected(string $fileName): string
-    {
-        return trim(file_get_contents($this->makePath($fileName)));
     }
 }
