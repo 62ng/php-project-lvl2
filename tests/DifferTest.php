@@ -11,33 +11,12 @@ class DifferTest extends TestCase
     /**
      * @dataProvider additionProvider
      */
-    public function testStylishGenDiff(string $file1, string $file2): void
+    public function testGenDiff(string $file1, string $file2, string $formatter = 'stylish'): void
     {
-        $this->assertEquals(
-            $this->getExpected('expectedStylish.txt'),
-            genDiff($this->makePath($file1), $this->makePath($file2))
-        );
-    }
-
-    /**
-     * @dataProvider additionProvider
-     */
-    public function testPlainGenDiff(string $file1, string $file2): void
-    {
-        $this->assertEquals(
-            $this->getExpected('expectedPlain.txt'),
-            genDiff($this->makePath($file1), $this->makePath($file2), 'plain')
-        );
-    }
-
-    /**
-     * @dataProvider additionProvider
-     */
-    public function testJsonGenDiff(string $file1, string $file2): void
-    {
-        $this->assertJsonStringEqualsJsonString(
-            $this->getExpected('expectedJson.txt'),
-            genDiff($this->makePath($file1), $this->makePath($file2), 'json')
+        $assertMethod = $formatter === 'json' ? 'assertJsonStringEqualsJsonString' : 'assertEquals';
+        $this->$assertMethod(
+            $this->getExpected('expected' . ucfirst($formatter) . '.txt'),
+            genDiff($this->makePath($file1), $this->makePath($file2), $formatter)
         );
     }
 
