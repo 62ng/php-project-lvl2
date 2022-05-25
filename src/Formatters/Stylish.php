@@ -11,11 +11,6 @@ const TYPE_SYMBOLS = [
     'unchanged' => ' '
 ];
 
-function makeIndent(int $depth, string $sign = ' '): string
-{
-    return str_repeat("    ", $depth) . ($sign === '}' ? '' : "  {$sign} ");
-}
-
 function formatToStylish(array $diffs): string
 {
     $iter = function ($currentDiffs, $depth) use (&$iter) {
@@ -26,18 +21,16 @@ function formatToStylish(array $diffs): string
         $lines = array_map(
             function ($key, $val) use ($iter, $depth) {
                 if (!is_array($val)) {
-                    return makeIndent($depth) . "{$key}: " . toString($val);
+                    return formatLine($depth, 'unchanged', $key, $val);
                 }
                 if (!key_exists('type', $val)) {
-                    return makeIndent($depth) . "{$key}: {$iter($val, $depth + 1)}";
+                    return formatLine($depth, 'unchanged', $key, $iter($val, $depth + 1));
                 }
                 if (!key_exists($val['type'], $val)) {
-                    return makeIndent($depth, TYPE_SYMBOLS['deleted']) . "{$key}: {$iter($val['deleted'], $depth + 1)}"
-                        . PHP_EOL
-                        . makeIndent($depth, TYPE_SYMBOLS['added']) . "{$key}: {$iter($val['added'], $depth + 1)}";
+                    return formatLine($depth, 'deleted', $key, $iter($val['deleted'], $depth + 1)) . PHP_EOL
+                        . formatLine($depth, 'added', $key, $iter($val['added'], $depth + 1));
                 }
-                return
-                    makeIndent($depth, TYPE_SYMBOLS[$val['type']]) . "{$key}: {$iter($val[$val['type']], $depth + 1)}";
+                return formatLine($depth, $val['type'], $key, $iter($val[$val['type']], $depth + 1));
             },
             array_keys($currentDiffs),
             $currentDiffs
@@ -49,6 +42,12 @@ function formatToStylish(array $diffs): string
     return $iter($diffs, 0);
 }
 
-function formatLine(string $path, string $type, mixed $valBefore, mixed $valAfter): string
+function makeIndent(int $depth, string $sign = ' '): string
 {
+    return str_repeat("    ", $depth) . ($sign === '}' ? '' : "  {$sign} ");
+}
+
+function formatLine(int $depth, string $type, mixed $key, mixed $val): string
+{
+    return makeIndent($depth, TYPE_SYMBOLS[$type]) . "{$key}: {$val}";
 }
