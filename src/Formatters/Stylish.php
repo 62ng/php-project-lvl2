@@ -48,3 +48,7 @@ function formatToStylish(array $diffs): string
 
     return $iter($diffs, 0);
 }
+
+function formatLine(string $path, string $type, mixed $valBefore, mixed $valAfter): string
+{
+}
