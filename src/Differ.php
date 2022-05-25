@@ -18,10 +18,12 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
 
 function iter(array $currentData1, array $currentData2): array
 {
+    // не понял как эти 3 строки вынести за iter при рекурсии, если это подготовка данных для маппинга
     $mergedData = array_merge($currentData1, $currentData2);
     $allKeys = array_keys($mergedData);
     $allKeysSorted = sort($allKeys, fn ($left, $right) => strcmp($left, $right));
 
+    // array_flip приходится использовать, т.к. в библиотеке Functional нет сортировки массива по ключу
     return array_map(function ($keyIndex) use ($allKeysSorted, $currentData1, $currentData2) {
         $key = $allKeysSorted[$keyIndex];
         if (!key_exists($key, $currentData2)) {
