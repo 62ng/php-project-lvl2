@@ -9,7 +9,7 @@ function formatToPlain(array $diffs): string
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
         $lines = array_map(
             function ($key, $val) use ($iter, $keyPath) {
-                $keyPathCurrent = ($keyPath === '') ? $key : "{$keyPath}.{$key}";
+                $keyPathCurrent = (string) ($keyPath === '') ? $key : "{$keyPath}.{$key}";
                 if (key_exists('changed', $val)) {
                     return $iter($val['changed'], $keyPathCurrent);
                 }
