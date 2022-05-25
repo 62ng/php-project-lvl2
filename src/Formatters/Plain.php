@@ -10,22 +10,15 @@ function formatToPlain(array $diffs): string
         $lines = array_map(
             function ($key, $val) use ($iter, $keyPath) {
                 $keyPathCurrent = ($keyPath === '') ? $key : "{$keyPath}.{$key}";
-                if ($val['type'] === 'deleted') {
-                    return "Property '{$keyPathCurrent}' was removed";
+                if (key_exists('changed', $val)) {
+                    return $iter($val['changed'], $keyPathCurrent);
                 }
-                if ($val['type'] === 'added') {
-                    $value = (is_array($val['added'])) ? '[complex value]' : toString($val['added'], true);
-                    return "Property '{$keyPathCurrent}' was added with value: {$value}";
-                }
-                if ($val['type'] === 'changed') {
-                    if (key_exists('changed', $val)) {
-                        return $iter($val['changed'], $keyPathCurrent);
-                    } else {
-                        $valBefore = (is_array($val['deleted'])) ? '[complex value]' : toString($val['deleted'], true);
-                        $valAfter = (is_array($val['added'])) ? '[complex value]' : toString($val['added'], true);
-                        return "Property '{$keyPathCurrent}' was updated. From {$valBefore} to {$valAfter}";
-                    }
-                }
+                return formatLine(
+                    $keyPathCurrent,
+                    $val['type'],
+                    $val['deleted'] ?? null,
+                    $val['added'] ?? null
+                );
             },
             array_keys($currentDiffs),
             $currentDiffs
@@ -35,4 +28,19 @@ function formatToPlain(array $diffs): string
     };
 
     return $iter($diffs, '');
+}
+
+function formatLine(string $path, string $type, mixed $valBefore, mixed $valAfter): string
+{
+    $stringedValBefore = (is_array($valBefore)) ? '[complex value]' : toString($valBefore, true);
+    $stringedValAfter = (is_array($valAfter)) ? '[complex value]' : toString($valAfter, true);
+
+    $line = "Property '{$path}' was";
+
+    return match ($type) {
+        'deleted' => $line . ' removed',
+        'added' => $line . " added with value: {$stringedValAfter}",
+        'changed' => $line . " updated. From {$stringedValBefore} to {$stringedValAfter}",
+        default => ''
+    };
 }
