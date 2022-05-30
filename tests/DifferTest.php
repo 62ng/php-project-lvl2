@@ -13,9 +13,15 @@ class DifferTest extends TestCase
      */
     public function testGenDiff(string $file1, string $file2, string $formatter = 'stylish'): void
     {
-        $assertMethod = $formatter === 'json' ? 'assertJsonStringEqualsJsonFile' : 'assertStringEqualsFile';
+        $assertMethod = ($formatter === 'json')
+            ? 'assertJsonStringEqualsJsonFile'
+            : 'assertStringEqualsFile';
+
+        $parts = ['expected', ucfirst($formatter), '.txt'];
+        $expectedFileName = implode('', $parts);
+
         $this->$assertMethod(
-            $this->makePath('expected' . ucfirst($formatter) . '.txt'),
+            $this->makePath($expectedFileName),
             genDiff($this->makePath($file1), $this->makePath($file2), $formatter)
         );
     }

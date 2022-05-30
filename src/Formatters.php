@@ -16,6 +16,7 @@ use function Differ\Formatters\Json\formatToJson;
 function toString($value, bool $isQuoted = false): string
 {
     $valueString = trim(var_export($value, true), "' ");
+
     if (is_null($value)) {
         return strtolower($valueString);
     }

@@ -4,6 +4,7 @@
 
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
+
 if (file_exists($autoloadPath1)) {
     require_once $autoloadPath1;
 } else {
@@ -14,4 +15,5 @@ use function Differ\Cli\runDocopt;
 use function Differ\Differ\genDiff;
 
 $args = runDocopt();
+
 print_r(genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']) . PHP_EOL);

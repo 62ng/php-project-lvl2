@@ -23,13 +23,16 @@ function formatToStylish(array $diffs): string
                 if (!is_array($val)) {
                     return formatLine($depth, 'unchanged', $key, $val);
                 }
+
                 if (!key_exists('type', $val)) {
                     return formatLine($depth, 'unchanged', $key, $iter($val, $depth + 1));
                 }
+
                 if (!key_exists($val['type'], $val)) {
                     return formatLine($depth, 'deleted', $key, $iter($val['deleted'], $depth + 1)) . PHP_EOL
                         . formatLine($depth, 'added', $key, $iter($val['added'], $depth + 1));
                 }
+
                 return formatLine($depth, $val['type'], $key, $iter($val[$val['type']], $depth + 1));
             },
             array_keys($currentDiffs),

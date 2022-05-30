@@ -10,9 +10,11 @@ function formatToPlain(array $diffs): string
         $lines = array_map(
             function ($key, $val) use ($iter, $keyPath) {
                 $keyPathCurrent = ($keyPath === '') ? (string) $key : "{$keyPath}.{$key}";
+
                 if (key_exists('changed', $val)) {
                     return $iter($val['changed'], $keyPathCurrent);
                 }
+
                 return formatLine(
                     $keyPathCurrent,
                     $val['type'],
