@@ -18,7 +18,7 @@ function toString($value, bool $isQuoted = false): string
     $valueString = trim(var_export($value, true), "' ");
 
     if (is_null($value)) {
-        return strtolower($valueString);
+        return mb_strtolower($valueString);
     }
     if (is_bool($value) || is_int($value)) {
         return $valueString;
