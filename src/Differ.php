@@ -38,21 +38,25 @@ function iter(array $currentData1, array $currentData2): array
         $key = $allKeysSorted[$keyIndex];
 
         if (!key_exists($key, $currentData2)) {
-            return ['type' => 'deleted', 'deleted' => $currentData1[$key]];
+            return ['type' => 'deletedElement', 'deletedElement' => $currentData1[$key]];
         }
 
         if (!key_exists($key, $currentData1)) {
-            return ['type' => 'added', 'added' => $currentData2[$key]];
+            return ['type' => 'addedElement', 'addedElement' => $currentData2[$key]];
         }
 
         if ($currentData1[$key] === $currentData2[$key]) {
-            return ['type' => 'unchanged', 'unchanged' => $currentData1[$key]];
+            return ['type' => 'unchangedElement', 'unchangedElement' => $currentData1[$key]];
         }
 
         if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
-            return ['type' => 'changed', 'changed' => iter($currentData1[$key], $currentData2[$key])];
+            return ['type' => 'changedElement', 'changedElement' => iter($currentData1[$key], $currentData2[$key])];
         }
 
-        return ['type' => 'changed', 'deleted' => $currentData1[$key], 'added' => $currentData2[$key]];
+        return [
+            'type' => 'changedElement',
+            'deletedElement' => $currentData1[$key],
+            'addedElement' => $currentData2[$key]
+        ];
     }, array_flip($allKeysSorted));
 }

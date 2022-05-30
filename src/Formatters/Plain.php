@@ -8,18 +8,18 @@ function formatData(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
         $lines = array_map(
-            function ($key, $val) use ($iter, $keyPath) {
+            function ($key, $value) use ($iter, $keyPath) {
                 $keyPathCurrent = ($keyPath === '') ? (string) $key : "{$keyPath}.{$key}";
 
-                if (key_exists('changed', $val)) {
-                    return $iter($val['changed'], $keyPathCurrent);
+                if (key_exists('changedElement', $value)) {
+                    return $iter($value['changedElement'], $keyPathCurrent);
                 }
 
                 return formatLine(
                     $keyPathCurrent,
-                    $val['type'],
-                    $val['deleted'] ?? null,
-                    $val['added'] ?? null
+                    $value['type'],
+                    $value['deletedElement'] ?? null,
+                    $value['addedElement'] ?? null
                 );
             },
             array_keys($currentDiffs),
@@ -32,17 +32,17 @@ function formatData(array $diffs): string
     return $iter($diffs, '');
 }
 
-function formatLine(string $path, string $type, mixed $valBefore, mixed $valAfter): string
+function formatLine(string $path, string $type, mixed $valueBefore, mixed $valueAfter): string
 {
-    $stringedValBefore = (is_array($valBefore)) ? '[complex value]' : toString($valBefore, true);
-    $stringedValAfter = (is_array($valAfter)) ? '[complex value]' : toString($valAfter, true);
+    $stringedValueBefore = (is_array($valueBefore)) ? '[complex value]' : toString($valueBefore, true);
+    $stringedValueAfter = (is_array($valueAfter)) ? '[complex value]' : toString($valueAfter, true);
 
     $line = "Property '{$path}' was";
 
     return match ($type) {
-        'deleted' => $line . ' removed',
-        'added' => $line . " added with value: {$stringedValAfter}",
-        'changed' => $line . " updated. From {$stringedValBefore} to {$stringedValAfter}",
+        'deletedElement' => $line . ' removed',
+        'addedElement' => $line . " added with value: {$stringedValueAfter}",
+        'changedElement' => $line . " updated. From {$stringedValueBefore} to {$stringedValueAfter}",
         default => ''
     };
 }

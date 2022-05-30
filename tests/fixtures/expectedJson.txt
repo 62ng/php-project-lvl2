@@ -1,83 +1,83 @@
 {
   "common": {
-    "type": "changed",
-    "changed": {
+    "type": "changedElement",
+    "changedElement": {
       "follow": {
-        "type": "added",
-        "added": false
+        "type": "addedElement",
+        "addedElement": false
       },
       "setting1": {
-        "type": "unchanged",
-        "unchanged": "Value 1"
+        "type": "unchangedElement",
+        "unchangedElement": "Value 1"
       },
       "setting2": {
-        "type": "deleted",
-        "deleted": 200
+        "type": "deletedElement",
+        "deletedElement": 200
       },
       "setting3": {
-        "type": "changed",
-        "deleted": true,
-        "added": null
+        "type": "changedElement",
+        "deletedElement": true,
+        "addedElement": null
       },
       "setting4": {
-        "type": "added",
-        "added": "blah blah"
+        "type": "addedElement",
+        "addedElement": "blah blah"
       },
       "setting5": {
-        "type": "added",
-        "added": {
+        "type": "addedElement",
+        "addedElement": {
           "key5": "value5"
         }
       },
       "setting6": {
-        "type": "changed",
-        "changed": {
+        "type": "changedElement",
+        "changedElement": {
           "doge": {
-            "type": "changed",
-            "changed": {
+            "type": "changedElement",
+            "changedElement": {
               "wow": {
-                "type": "changed",
-                "deleted": "",
-                "added": "so much"
+                "type": "changedElement",
+                "deletedElement": "",
+                "addedElement": "so much"
               }
             }
           },
           "key": {
-            "type": "unchanged",
-            "unchanged": "value"
+            "type": "unchangedElement",
+            "unchangedElement": "value"
           },
           "ops": {
-            "type": "added",
-            "added": "vops"
+            "type": "addedElement",
+            "addedElement": "vops"
           }
         }
       }
     }
   },
   "group1": {
-    "type": "changed",
-    "changed": {
+    "type": "changedElement",
+    "changedElement": {
       "baz": {
-        "type": "changed",
-        "deleted": "bas",
-        "added": "bars"
+        "type": "changedElement",
+        "deletedElement": "bas",
+        "addedElement": "bars"
       },
       "foo": {
-        "type": "unchanged",
-        "unchanged": "bar"
+        "type": "unchangedElement",
+        "unchangedElement": "bar"
       },
       "nest": {
-        "type": "changed",
-        "deleted": {
+        "type": "changedElement",
+        "deletedElement": {
           "key": "value"
         },
-        "added": "str"
+        "addedElement": "str"
       }
     }
   },
   "group2": {
-    "type": "deleted",
-    "deleted": {
+    "type": "deletedElement",
+    "deletedElement": {
       "abc": 12345,
       "deep": {
         "id": 45
@@ -85,8 +85,8 @@
     }
   },
   "group3": {
-    "type": "added",
-    "added": {
+    "type": "addedElement",
+    "addedElement": {
       "deep": {
         "id": {
           "number": 45
