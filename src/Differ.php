@@ -2,8 +2,8 @@
 
 namespace Differ\Differ;
 
-use function Differ\Parser\getContent;
 use function Differ\Formatters\format;
+use function Differ\Parser\parseData;
 use function Functional\sort;
 
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish')
@@ -14,6 +14,18 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
     $diffs = iter($data1, $data2);
 
     return format($diffs, $formatter);
+}
+
+function getContent(string $filePath): array
+{
+    if (!file_exists($filePath)) {
+        throw new \Exception('Incorrect file path!');
+    }
+
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    $fileData = (string) file_get_contents($filePath);
+
+    return parseData($fileData, $extension);
 }
 
 function iter(array $currentData1, array $currentData2): array
