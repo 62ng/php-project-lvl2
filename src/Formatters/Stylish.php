@@ -11,7 +11,7 @@ const TYPE_SYMBOLS = [
     'unchanged' => ' '
 ];
 
-function formatToStylish(array $diffs): string
+function formatData(array $diffs): string
 {
     $iter = function ($currentDiffs, $depth) use (&$iter) {
         if (!is_array($currentDiffs)) {

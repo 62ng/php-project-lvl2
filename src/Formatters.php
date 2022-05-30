@@ -2,9 +2,9 @@
 
 namespace Differ\Formatters;
 
-use function Differ\Formatters\Stylish\formatToStylish;
-use function Differ\Formatters\Plain\formatToPlain;
-use function Differ\Formatters\Json\formatToJson;
+use Differ\Formatters\Stylish as Stylish;
+use Differ\Formatters\Plain as Plain;
+use Differ\Formatters\Json as Json;
 
 /**
  * Returns string implementation of data
@@ -30,9 +30,9 @@ function toString($value, bool $isQuoted = false): string
 function format(array $diffs, string $formatter): string
 {
     return match ($formatter) {
-        'stylish' => formatToStylish($diffs),
-        'plain' => formatToPlain($diffs),
-        'json' => formatToJson($diffs),
+        'stylish' => Stylish\formatData($diffs),
+        'plain' => Plain\formatData($diffs),
+        'json' => Json\formatData($diffs),
         default => throw new \Exception('Unknown report format!')
     };
 }
