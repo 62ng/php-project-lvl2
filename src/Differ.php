@@ -8,15 +8,18 @@ use function Functional\sort;
 
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish')
 {
-    $data1 = getContent($filePath1);
-    $data2 = getContent($filePath2);
+    $data1 = getFileData($filePath1);
+    $data2 = getFileData($filePath2);
 
-    $diffs = iter($data1, $data2);
+    $content1 = parseData($data1['file'], $data1['extension']);
+    $content2 = parseData($data2['file'], $data2['extension']);
+
+    $diffs = iter($content1, $content2);
 
     return format($diffs, $formatter);
 }
 
-function getContent(string $filePath): array
+function getFileData(string $filePath): array
 {
     if (!file_exists($filePath)) {
         throw new \Exception('Incorrect file path!');
@@ -25,7 +28,7 @@ function getContent(string $filePath): array
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
     $fileData = (string) file_get_contents($filePath);
 
-    return parseData($fileData, $extension);
+    return ['file' => $fileData, 'extension' => $extension];
 }
 
 function iter(array $currentData1, array $currentData2): array
