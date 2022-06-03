@@ -8,8 +8,8 @@ function formatData(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
         $lines = array_map(
-            function ($key, $value) use ($iter, $keyPath) {
-                $keyPathCurrent = ($keyPath === '') ? (string) $key : "{$keyPath}.{$key}";
+            function ($value) use ($iter, $keyPath) {
+                $keyPathCurrent = ($keyPath === '') ? (string) $value['key'] : "{$keyPath}.{$value['key']}";
 
                 if (key_exists('changedElement', $value)) {
                     return $iter($value['changedElement'], $keyPathCurrent);
@@ -22,7 +22,6 @@ function formatData(array $diffs): string
                     $value['addedElement'] ?? null
                 );
             },
-            array_keys($currentDiffs),
             $currentDiffs
         );
 
@@ -40,9 +39,9 @@ function formatLine(string $path, string $type, mixed $valueBefore, mixed $value
     $line = "Property '{$path}' was";
 
     return match ($type) {
-        'deletedElement' => $line . ' removed',
-        'addedElement' => $line . " added with value: {$stringedValueAfter}",
-        'changedElement' => $line . " updated. From {$stringedValueBefore} to {$stringedValueAfter}",
+        'deleted' => $line . ' removed',
+        'added' => $line . " added with value: {$stringedValueAfter}",
+        'changed' => $line . " updated. From {$stringedValueBefore} to {$stringedValueAfter}",
         default => ''
     };
 }

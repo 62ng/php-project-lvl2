@@ -37,36 +37,31 @@ function iter(array $currentData1, array $currentData2): array
     $allKeys = array_keys($mergedData);
     $allKeysSorted = sort($allKeys, fn ($left, $right) => strcmp($left, $right));
 
-//    Мне нужно построить AST-дерево на основе двух массивов, слитых в одно, с сохранением ключей
-//    Т.к. нет чистой сортировки по ключам, приходится сортировать ключи отдельно и далее маппить полученный
-//    отсортированный массив. Но у этого массива собственные ключи числовые и маппить его напрямую дает массив
-//    с числовыми же ключами. Поэтому я переворачиваю отсортированные ключи. Альтернативой
-//    вижу написание собственной рекурсивной функции сортировки по ключам, либо использование array_reduce.
-//    Но оба варианта выглядят более дорогими, чем добавление одной такой строчки $key = $allKeysSorted[$keyIndex];
-//    Может, я какого-то очевидного хода не вижу, но уже несколько раз рассматривал этот кусок
-    return array_map(function ($keyIndex) use ($allKeysSorted, $currentData1, $currentData2) {
-        $key = $allKeysSorted[$keyIndex];
+    return array_map(function ($key) use ($currentData1, $currentData2) {
 
         if (!key_exists($key, $currentData2)) {
-            return ['type' => 'deletedElement', 'deletedElement' => $currentData1[$key]];
+            return ['key' => $key, 'type' => 'deleted', 'deletedElement' => $currentData1[$key]];
         }
 
         if (!key_exists($key, $currentData1)) {
-            return ['type' => 'addedElement', 'addedElement' => $currentData2[$key]];
+            return ['key' => $key, 'type' => 'added', 'addedElement' => $currentData2[$key]];
         }
 
         if ($currentData1[$key] === $currentData2[$key]) {
-            return ['type' => 'unchangedElement', 'unchangedElement' => $currentData1[$key]];
+            return ['key' => $key, 'type' => 'unchanged', 'unchangedElement' => $currentData1[$key]];
         }
 
         if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
-            return ['type' => 'changedElement', 'changedElement' => iter($currentData1[$key], $currentData2[$key])];
+            return [
+                'key' => $key, 'type' => 'changed', 'changedElement' => iter($currentData1[$key], $currentData2[$key])
+            ];
         }
 
         return [
-            'type' => 'changedElement',
+            'key' => $key,
+            'type' => 'changed',
             'deletedElement' => $currentData1[$key],
             'addedElement' => $currentData2[$key]
         ];
-    }, array_flip($allKeysSorted));
+    }, $allKeysSorted);
 }

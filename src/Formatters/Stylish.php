@@ -5,38 +5,31 @@ namespace Differ\Formatters\Stylish;
 use function Differ\Formatters\toString;
 
 const TYPE_SYMBOLS = [
-    'deletedElement' => '-',
-    'addedElement' => '+',
-    'changedElement' => ' ',
-    'unchangedElement' => ' '
+    'deleted' => '-',
+    'added' => '+',
+    'changed' => ' ',
+    'unchanged' => ' '
 ];
 
 function formatData(array $diffs): string
 {
     $iter = function ($currentDiffs, $depth) use (&$iter) {
-        if (!is_array($currentDiffs)) {
-            return toString($currentDiffs);
-        }
 
         $lines = array_map(
-            function ($key, $value) use ($iter, $depth) {
-                if (!is_array($value)) {
-                    return formatLine($depth, 'unchangedElement', $key, $value);
+            function ($value) use ($iter, $depth) {
+
+                if (key_exists('changedElement', $value)) {
+                    return formatLine($depth, 'changed', $value['key'], $iter($value['changedElement'], $depth + 1));
                 }
 
-                if (!key_exists('type', $value)) {
-                    return formatLine($depth, 'unchangedElement', $key, $iter($value, $depth + 1));
-                }
-
-                if (!key_exists($value['type'], $value)) {
-                    return formatLine($depth, 'deletedElement', $key, $iter($value['deletedElement'], $depth + 1))
+                if ($value['type'] === 'changed') {
+                    return formatLine($depth, 'deleted', $value['key'], $value['deletedElement'])
                         . PHP_EOL
-                        . formatLine($depth, 'addedElement', $key, $iter($value['addedElement'], $depth + 1));
+                        . formatLine($depth, 'added', $value['key'], $value['addedElement']);
                 }
 
-                return formatLine($depth, $value['type'], $key, $iter($value[$value['type']], $depth + 1));
+                return formatLine($depth, $value['type'], $value['key'], $value[$value['type'] . 'Element']);
             },
-            array_keys($currentDiffs),
             $currentDiffs
         );
 
@@ -53,5 +46,26 @@ function makeIndent(int $depth, string $sign = ' '): string
 
 function formatLine(int $depth, string $type, mixed $key, mixed $value): string
 {
-    return makeIndent($depth, TYPE_SYMBOLS[$type]) . "{$key}: {$value}";
+    return makeIndent($depth, TYPE_SYMBOLS[$type]) . "{$key}: " . formatValue($depth + 1, $value);
+}
+
+function formatValue(int $depth, mixed $value): string
+{
+    if (!is_array($value)) {
+        return toString($value);
+    }
+
+    $lines = array_map(
+        function ($key, $value) use ($depth) {
+            if (is_array($value)) {
+                return makeIndent($depth, ' ') . "{$key}: " . formatValue($depth + 1, $value);
+            }
+
+            return makeIndent($depth, ' ') . "{$key}: {$value}";
+        },
+        array_keys($value),
+        $value
+    );
+
+    return implode(PHP_EOL, ['{', ...$lines, makeIndent($depth, '}') . '}']);
 }

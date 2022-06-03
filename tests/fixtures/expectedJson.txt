@@ -1,98 +1,116 @@
-{
-  "common": {
-    "type": "changedElement",
-    "changedElement": {
-      "follow": {
-        "type": "addedElement",
-        "addedElement": false
-      },
-      "setting1": {
-        "type": "unchangedElement",
-        "unchangedElement": "Value 1"
-      },
-      "setting2": {
-        "type": "deletedElement",
-        "deletedElement": 200
-      },
-      "setting3": {
-        "type": "changedElement",
-        "deletedElement": true,
-        "addedElement": null
-      },
-      "setting4": {
-        "type": "addedElement",
-        "addedElement": "blah blah"
-      },
-      "setting5": {
-        "type": "addedElement",
-        "addedElement": {
-          "key5": "value5"
-        }
-      },
-      "setting6": {
-        "type": "changedElement",
-        "changedElement": {
-          "doge": {
-            "type": "changedElement",
-            "changedElement": {
-              "wow": {
-                "type": "changedElement",
-                "deletedElement": "",
-                "addedElement": "so much"
-              }
+[
+    {
+        "changedElement": [
+            {
+                "addedElement": false,
+                "key": "follow",
+                "type": "added"
+            },
+            {
+                "key": "setting1",
+                "type": "unchanged",
+                "unchangedElement": "Value 1"
+            },
+            {
+                "deletedElement": 200,
+                "key": "setting2",
+                "type": "deleted"
+            },
+            {
+                "addedElement": null,
+                "deletedElement": true,
+                "key": "setting3",
+                "type": "changed"
+            },
+            {
+                "addedElement": "blah blah",
+                "key": "setting4",
+                "type": "added"
+            },
+            {
+                "addedElement": {
+                    "key5": "value5"
+                },
+                "key": "setting5",
+                "type": "added"
+            },
+            {
+                "changedElement": [
+                    {
+                        "changedElement": [
+                            {
+                                "addedElement": "so much",
+                                "deletedElement": "",
+                                "key": "wow",
+                                "type": "changed"
+                            }
+                        ],
+                        "key": "doge",
+                        "type": "changed"
+                    },
+                    {
+                        "key": "key",
+                        "type": "unchanged",
+                        "unchangedElement": "value"
+                    },
+                    {
+                        "addedElement": "vops",
+                        "key": "ops",
+                        "type": "added"
+                    }
+                ],
+                "key": "setting6",
+                "type": "changed"
             }
-          },
-          "key": {
-            "type": "unchangedElement",
-            "unchangedElement": "value"
-          },
-          "ops": {
-            "type": "addedElement",
-            "addedElement": "vops"
-          }
-        }
-      }
-    }
-  },
-  "group1": {
-    "type": "changedElement",
-    "changedElement": {
-      "baz": {
-        "type": "changedElement",
-        "deletedElement": "bas",
-        "addedElement": "bars"
-      },
-      "foo": {
-        "type": "unchangedElement",
-        "unchangedElement": "bar"
-      },
-      "nest": {
-        "type": "changedElement",
+        ],
+        "key": "common",
+        "type": "changed"
+    },
+    {
+        "changedElement": [
+            {
+                "addedElement": "bars",
+                "deletedElement": "bas",
+                "key": "baz",
+                "type": "changed"
+            },
+            {
+                "key": "foo",
+                "type": "unchanged",
+                "unchangedElement": "bar"
+            },
+            {
+                "addedElement": "str",
+                "deletedElement": {
+                    "key": "value"
+                },
+                "key": "nest",
+                "type": "changed"
+            }
+        ],
+        "key": "group1",
+        "type": "changed"
+    },
+    {
         "deletedElement": {
-          "key": "value"
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
         },
-        "addedElement": "str"
-      }
+        "key": "group2",
+        "type": "deleted"
+    },
+    {
+        "addedElement": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        },
+        "key": "group3",
+        "type": "added"
     }
-  },
-  "group2": {
-    "type": "deletedElement",
-    "deletedElement": {
-      "abc": 12345,
-      "deep": {
-        "id": 45
-      }
-    }
-  },
-  "group3": {
-    "type": "addedElement",
-    "addedElement": {
-      "deep": {
-        "id": {
-          "number": 45
-        }
-      },
-      "fee": 100500
-    }
-  }
-}
+]
