@@ -2,9 +2,9 @@
 
 namespace Differ\Formatters;
 
-use Differ\Formatters\Stylish as Stylish;
-use Differ\Formatters\Plain as Plain;
-use Differ\Formatters\Json as Json;
+use Differ\Formatters\Stylish;
+use Differ\Formatters\Plain;
+use Differ\Formatters\Json;
 
 function toString(mixed $value, bool $isQuoted = false): string
 {
