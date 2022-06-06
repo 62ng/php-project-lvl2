@@ -8,18 +8,18 @@ function formatData(array $diffs): string
 {
     $iter = function ($currentDiffs, $keyPath) use (&$iter) {
         $lines = array_map(
-            function ($value) use ($iter, $keyPath) {
-                $keyPathCurrent = ($keyPath === '') ? (string) $value['key'] : "{$keyPath}.{$value['key']}";
+            function ($node) use ($iter, $keyPath) {
+                $keyPathCurrent = ($keyPath === '') ? (string) $node['key'] : "{$keyPath}.{$node['key']}";
 
-                if (key_exists('changedElement', $value)) {
-                    return $iter($value['changedElement'], $keyPathCurrent);
+                if ($node['type'] === 'mixed') {
+                    return $iter($node['data'], $keyPathCurrent);
                 }
 
                 return formatLine(
                     $keyPathCurrent,
-                    $value['type'],
-                    $value['deletedElement'] ?? null,
-                    $value['addedElement'] ?? null
+                    $node['type'],
+                    $node['data']['before'],
+                    $node['data']['after']
                 );
             },
             $currentDiffs
@@ -31,17 +31,19 @@ function formatData(array $diffs): string
     return $iter($diffs, '');
 }
 
-function formatLine(string $path, string $type, mixed $valueBefore, mixed $valueAfter): string
+function formatLine(string $path, string $type, mixed $dataBefore, mixed $dataAfter): string
 {
-    $stringedValueBefore = (is_array($valueBefore)) ? '[complex value]' : toString($valueBefore, true);
-    $stringedValueAfter = (is_array($valueAfter)) ? '[complex value]' : toString($valueAfter, true);
-
     $line = "Property '{$path}' was";
 
     return match ($type) {
         'deleted' => $line . ' removed',
-        'added' => $line . " added with value: {$stringedValueAfter}",
-        'changed' => $line . " updated. From {$stringedValueBefore} to {$stringedValueAfter}",
+        'added' => $line . " added with value: " . stringify($dataAfter),
+        'changed' => $line . " updated. From " . stringify($dataBefore) . " to " . stringify($dataAfter),
         default => ''
     };
+}
+
+function stringify(mixed $nodeData): string
+{
+    return (is_array($nodeData)) ? '[complex value]' : toString($nodeData, true);
 }

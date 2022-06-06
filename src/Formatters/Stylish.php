@@ -8,7 +8,8 @@ const TYPE_SYMBOLS = [
     'deleted' => '-',
     'added' => '+',
     'changed' => ' ',
-    'unchanged' => ' '
+    'unchanged' => ' ',
+    'mixed' => ' '
 ];
 
 function formatData(array $diffs): string
@@ -16,19 +17,45 @@ function formatData(array $diffs): string
     $iter = function ($currentDiffs, $depth) use (&$iter) {
 
         $lines = array_map(
-            function ($value) use ($iter, $depth) {
+            function ($node) use ($iter, $depth) {
 
-                if (key_exists('changedElement', $value)) {
-                    return formatLine($depth, 'changed', $value['key'], $iter($value['changedElement'], $depth + 1));
+                if ($node['type'] === 'mixed') {
+                    return formatLine(
+                        $depth,
+                        'mixed',
+                        $node['key'],
+                        $iter($node['data'], $depth + 1)
+                    );
                 }
 
-                if ($value['type'] === 'changed') {
-                    return formatLine($depth, 'deleted', $value['key'], $value['deletedElement'])
+                if ($node['type'] === 'changed') {
+                    return
+                        formatLine(
+                            $depth,
+                            'deleted',
+                            $node['key'],
+                            $node['data']['before']
+                        )
                         . PHP_EOL
-                        . formatLine($depth, 'added', $value['key'], $value['addedElement']);
+                        . formatLine(
+                            $depth,
+                            'added',
+                            $node['key'],
+                            $node['data']['after']
+                        );
                 }
 
-                return formatLine($depth, $value['type'], $value['key'], $value[$value['type'] . 'Element']);
+                $nodeData = match ($node['type']) {
+                    'deleted', 'unchanged' => $node['data']['before'],
+                    'added' => $node['data']['after'],
+                    default => null
+                };
+                return formatLine(
+                    $depth,
+                    $node['type'],
+                    $node['key'],
+                    $nodeData
+                );
             },
             $currentDiffs
         );
@@ -44,27 +71,27 @@ function makeIndent(int $depth, string $sign = ' '): string
     return str_repeat("    ", $depth) . ($sign === '}' ? '' : "  {$sign} ");
 }
 
-function formatLine(int $depth, string $type, mixed $key, mixed $value): string
+function formatLine(int $depth, string $type, mixed $key, mixed $nodeData): string
 {
-    return makeIndent($depth, TYPE_SYMBOLS[$type]) . "{$key}: " . formatValue($depth + 1, $value);
+    return makeIndent($depth, TYPE_SYMBOLS[$type]) . "{$key}: " . stringify($depth + 1, $type, $nodeData);
 }
 
-function formatValue(int $depth, mixed $value): string
+function stringify(int $depth, string $type, mixed $nodeData): string
 {
-    if (!is_array($value)) {
-        return toString($value);
+    if (!is_array($nodeData)) {
+        return toString($nodeData);
     }
 
     $lines = array_map(
-        function ($key, $value) use ($depth) {
+        function ($key, $value) use ($depth, $type) {
             if (is_array($value)) {
-                return makeIndent($depth, ' ') . "{$key}: " . formatValue($depth + 1, $value);
+                return makeIndent($depth, ' ') . "{$key}: " . stringify($depth + 1, $type, $value);
             }
 
             return makeIndent($depth, ' ') . "{$key}: {$value}";
         },
-        array_keys($value),
-        $value
+        array_keys($nodeData),
+        $nodeData
     );
 
     return implode(PHP_EOL, ['{', ...$lines, makeIndent($depth, '}') . '}']);

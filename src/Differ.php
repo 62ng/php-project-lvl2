@@ -40,28 +40,41 @@ function iter(array $currentData1, array $currentData2): array
     return array_map(function ($key) use ($currentData1, $currentData2) {
 
         if (!key_exists($key, $currentData2)) {
-            return ['key' => $key, 'type' => 'deleted', 'deletedElement' => $currentData1[$key]];
+            return [
+                'key' => $key,
+                'type' => 'deleted',
+                'data' => ['before' => $currentData1[$key], 'after' => null]
+            ];
         }
 
         if (!key_exists($key, $currentData1)) {
-            return ['key' => $key, 'type' => 'added', 'addedElement' => $currentData2[$key]];
+            return [
+                'key' => $key,
+                'type' => 'added',
+                'data' => ['before' => null, 'after' => $currentData2[$key]]
+            ];
         }
 
         if ($currentData1[$key] === $currentData2[$key]) {
-            return ['key' => $key, 'type' => 'unchanged', 'unchangedElement' => $currentData1[$key]];
+            return [
+                'key' => $key,
+                'type' => 'unchanged',
+                'data' => ['before' => $currentData1[$key], 'after' => null]
+            ];
         }
 
         if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
             return [
-                'key' => $key, 'type' => 'changed', 'changedElement' => iter($currentData1[$key], $currentData2[$key])
+                'key' => $key,
+                'type' => 'mixed',
+                'data' => iter($currentData1[$key], $currentData2[$key])
             ];
         }
 
         return [
             'key' => $key,
             'type' => 'changed',
-            'deletedElement' => $currentData1[$key],
-            'addedElement' => $currentData2[$key]
+            'data' => ['before' => $currentData1[$key], 'after' => $currentData2[$key]]
         ];
     }, $allKeysSorted);
 }

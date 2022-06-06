@@ -1,114 +1,152 @@
 [
     {
-        "changedElement": [
+        "data": [
             {
-                "addedElement": false,
+                "data": {
+                    "after": false,
+                    "before": null
+                },
                 "key": "follow",
                 "type": "added"
             },
             {
+                "data": {
+                    "after": null,
+                    "before": "Value 1"
+                },
                 "key": "setting1",
-                "type": "unchanged",
-                "unchangedElement": "Value 1"
+                "type": "unchanged"
             },
             {
-                "deletedElement": 200,
+                "data": {
+                    "after": null,
+                    "before": 200
+                },
                 "key": "setting2",
                 "type": "deleted"
             },
             {
-                "addedElement": null,
-                "deletedElement": true,
+                "data": {
+                    "after": null,
+                    "before": true
+                },
                 "key": "setting3",
                 "type": "changed"
             },
             {
-                "addedElement": "blah blah",
+                "data": {
+                    "after": "blah blah",
+                    "before": null
+                },
                 "key": "setting4",
                 "type": "added"
             },
             {
-                "addedElement": {
-                    "key5": "value5"
+                "data": {
+                    "after": {
+                        "key5": "value5"
+                    },
+                    "before": null
                 },
                 "key": "setting5",
                 "type": "added"
             },
             {
-                "changedElement": [
+                "data": [
                     {
-                        "changedElement": [
+                        "data": [
                             {
-                                "addedElement": "so much",
-                                "deletedElement": "",
+                                "data": {
+                                    "after": "so much",
+                                    "before": ""
+                                },
                                 "key": "wow",
                                 "type": "changed"
                             }
                         ],
                         "key": "doge",
-                        "type": "changed"
+                        "type": "mixed"
                     },
                     {
+                        "data": {
+                            "after": null,
+                            "before": "value"
+                        },
                         "key": "key",
-                        "type": "unchanged",
-                        "unchangedElement": "value"
+                        "type": "unchanged"
                     },
                     {
-                        "addedElement": "vops",
+                        "data": {
+                            "after": "vops",
+                            "before": null
+                        },
                         "key": "ops",
                         "type": "added"
                     }
                 ],
                 "key": "setting6",
-                "type": "changed"
+                "type": "mixed"
             }
         ],
         "key": "common",
-        "type": "changed"
+        "type": "mixed"
     },
     {
-        "changedElement": [
+        "data": [
             {
-                "addedElement": "bars",
-                "deletedElement": "bas",
+                "data": {
+                    "after": "bars",
+                    "before": "bas"
+                },
                 "key": "baz",
                 "type": "changed"
             },
             {
+                "data": {
+                    "after": null,
+                    "before": "bar"
+                },
                 "key": "foo",
-                "type": "unchanged",
-                "unchangedElement": "bar"
+                "type": "unchanged"
             },
             {
-                "addedElement": "str",
-                "deletedElement": {
-                    "key": "value"
+                "data": {
+                    "after": "str",
+                    "before": {
+                        "key": "value"
+                    }
                 },
                 "key": "nest",
                 "type": "changed"
             }
         ],
         "key": "group1",
-        "type": "changed"
+        "type": "mixed"
     },
     {
-        "deletedElement": {
-            "abc": 12345,
-            "deep": {
-                "id": 45
+        "data": {
+            "after": null,
+            "before": {
+                "abc": 12345,
+                "deep": {
+                    "id": 45
+                }
             }
         },
         "key": "group2",
         "type": "deleted"
     },
     {
-        "addedElement": {
-            "deep": {
-                "id": {
-                    "number": 45
-                }
+        "data": {
+            "after": {
+                "deep": {
+                    "id": {
+                        "number": 45
+                    }
+                },
+                "fee": 100500
             },
-            "fee": 100500
+            "before": null
         },
         "key": "group3",
         "type": "added"
