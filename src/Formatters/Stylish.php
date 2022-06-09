@@ -18,44 +18,15 @@ function formatData(array $diffs): string
 
         $lines = array_map(
             function ($node) use ($iter, $depth) {
-
-                if ($node['type'] === 'nested') {
-                    return formatLine(
-                        $depth,
-                        'nested',
-                        $node['key'],
-                        $iter($node['data'], $depth + 1)
-                    );
-                }
-
-                if ($node['type'] === 'changed') {
-                    return
-                        formatLine(
-                            $depth,
-                            'deleted',
-                            $node['key'],
-                            $node['data']['before']
-                        )
+                return match ($node['type']) {
+                    'nested' => formatLine($depth, 'nested', $node['key'], $iter($node['data'], $depth + 1)),
+                    'changed' => formatLine($depth, 'deleted', $node['key'], $node['data']['before'])
                         . PHP_EOL
-                        . formatLine(
-                            $depth,
-                            'added',
-                            $node['key'],
-                            $node['data']['after']
-                        );
-                }
-
-                $nodeData = match ($node['type']) {
-                    'deleted', 'unchanged' => $node['data']['before'],
-                    'added' => $node['data']['after'],
-                    default => null
+                        . formatLine($depth, 'added', $node['key'], $node['data']['after']),
+                    'deleted', 'unchanged' => formatLine($depth, $node['type'], $node['key'], $node['data']['before']),
+                    'added' => formatLine($depth, $node['type'], $node['key'], $node['data']['after']),
+                    default => throw new \Exception('Unknown node type!')
                 };
-                return formatLine(
-                    $depth,
-                    $node['type'],
-                    $node['key'],
-                    $nodeData
-                );
             },
             $currentDiffs
         );
