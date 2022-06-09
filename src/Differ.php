@@ -66,7 +66,7 @@ function iter(array $currentData1, array $currentData2): array
         if (is_array($currentData1[$key]) && is_array($currentData2[$key])) {
             return [
                 'key' => $key,
-                'type' => 'mixed',
+                'type' => 'nested',
                 'data' => iter($currentData1[$key], $currentData2[$key])
             ];
         }

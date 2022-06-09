@@ -11,7 +11,7 @@ function formatData(array $diffs): string
             function ($node) use ($iter, $keyPath) {
                 $keyPathCurrent = ($keyPath === '') ? (string) $node['key'] : "{$keyPath}.{$node['key']}";
 
-                if ($node['type'] === 'mixed') {
+                if ($node['type'] === 'nested') {
                     return $iter($node['data'], $keyPathCurrent);
                 }
 

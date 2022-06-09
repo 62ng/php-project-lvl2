@@ -65,7 +65,7 @@
                             }
                         ],
                         "key": "doge",
-                        "type": "mixed"
+                        "type": "nested"
                     },
                     {
                         "data": {
@@ -85,11 +85,11 @@
                     }
                 ],
                 "key": "setting6",
-                "type": "mixed"
+                "type": "nested"
             }
         ],
         "key": "common",
-        "type": "mixed"
+        "type": "nested"
     },
     {
         "data": [
@@ -121,7 +121,7 @@
             }
         ],
         "key": "group1",
-        "type": "mixed"
+        "type": "nested"
     },
     {
         "data": {

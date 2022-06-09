@@ -9,7 +9,7 @@ const TYPE_SYMBOLS = [
     'added' => '+',
     'changed' => ' ',
     'unchanged' => ' ',
-    'mixed' => ' '
+    'nested' => ' '
 ];
 
 function formatData(array $diffs): string
@@ -19,10 +19,10 @@ function formatData(array $diffs): string
         $lines = array_map(
             function ($node) use ($iter, $depth) {
 
-                if ($node['type'] === 'mixed') {
+                if ($node['type'] === 'nested') {
                     return formatLine(
                         $depth,
-                        'mixed',
+                        'nested',
                         $node['key'],
                         $iter($node['data'], $depth + 1)
                     );
