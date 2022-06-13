@@ -14,12 +14,11 @@ function toString(mixed $value, bool $isNeedQuotes = false): string
 
     $exportedValue = var_export($value, true);
 
-    if (is_bool($value) || is_int($value)) {
+    if (is_bool($value) || is_int($value) || $isNeedQuotes) {
         return $exportedValue;
     }
 
-    $trimedValue = trim($exportedValue, "' ");
-    return $isNeedQuotes ? "'{$trimedValue}'" : $trimedValue;
+    return trim($exportedValue, "'");
 }
 
 function format(array $diffs, string $formatter): string
