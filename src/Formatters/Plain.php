@@ -10,17 +10,18 @@ function formatData(array $diffs): string
         $lines = array_map(
             function ($node) use ($iter, $keyPath) {
                 $keyPathCurrent = ($keyPath === '') ? (string) $node['key'] : "{$keyPath}.{$node['key']}";
+                $line = "Property '{$keyPathCurrent}' was";
 
-                if ($node['type'] === 'nested') {
-                    return $iter($node['data'], $keyPathCurrent);
-                }
-
-                return formatLine(
-                    $keyPathCurrent,
-                    $node['type'],
-                    $node['data']['before'],
-                    $node['data']['after']
-                );
+                return match ($node['type']) {
+                    'nested' => $iter($node['data'], $keyPathCurrent),
+                    'deleted' => $line . ' removed',
+                    'added' => $line . " added with value: " . stringify($node['data']['after']),
+                    'changed' => $line . " updated. From "
+                        . stringify($node['data']['before']) . " to "
+                        . stringify($node['data']['after']),
+                    'unchanged' => '',
+                    default => throw new \Exception('Unknown node type!')
+                };
             },
             $currentDiffs
         );
@@ -29,18 +30,6 @@ function formatData(array $diffs): string
     };
 
     return $iter($diffs, '');
-}
-
-function formatLine(string $path, string $type, mixed $dataBefore, mixed $dataAfter): string
-{
-    $line = "Property '{$path}' was";
-
-    return match ($type) {
-        'deleted' => $line . ' removed',
-        'added' => $line . " added with value: " . stringify($dataAfter),
-        'changed' => $line . " updated. From " . stringify($dataBefore) . " to " . stringify($dataAfter),
-        default => ''
-    };
 }
 
 function stringify(mixed $nodeData): string
