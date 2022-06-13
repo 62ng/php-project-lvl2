@@ -8,12 +8,12 @@ use Differ\Formatters\Json;
 
 function toString(mixed $value, bool $isNeedQuotes = false): string
 {
+    if (is_null($value)) {
+        return 'null';
+    }
+
     $exportedValue = var_export($value, true);
 
-    // var_export почему-то экспортирует null как NULL, а в фикстурах везде null
-    if (is_null($value)) {
-        return mb_strtolower($exportedValue);
-    }
     if (is_bool($value) || is_int($value)) {
         return $exportedValue;
     }
