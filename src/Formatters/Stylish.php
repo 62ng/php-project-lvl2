@@ -45,7 +45,7 @@ function stringify(int $depth, string $sign, mixed $key, mixed $nodeData): strin
     $prefix = ($key === '') ? '' : makeIndent($depth, $sign) . "{$key}: ";
 
     if (!is_array($nodeData)) {
-        return $prefix . toString($nodeData);
+        return $prefix . trim(toString($nodeData), "'");
     }
 
     $lines = array_map(

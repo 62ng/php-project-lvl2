@@ -34,5 +34,5 @@ function formatData(array $diffs): string
 
 function stringify(mixed $nodeData): string
 {
-    return (is_array($nodeData)) ? '[complex value]' : toString($nodeData, true);
+    return (is_array($nodeData)) ? '[complex value]' : toString($nodeData);
 }
