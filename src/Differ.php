@@ -15,7 +15,7 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
     $content2 = parseData($data2['file'], $data2['extension']);
 
     $diffs = iter($content1, $content2);
-//dump($diffs);
+
     return format($diffs, $formatter);
 }
 
