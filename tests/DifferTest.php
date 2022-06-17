@@ -16,8 +16,8 @@ class DifferTest extends TestCase
         $assertMethod = ($formatter === 'json') ? 'assertJsonStringEqualsJsonFile' : 'assertStringEqualsFile';
 
         $this->$assertMethod(
-            $this->makePath($expectedFile),
-            genDiff($this->makePath($file1), $this->makePath($file2), $formatter)
+            $this->makePathToFixture($expectedFile),
+            genDiff($this->makePathToFixture($file1), $this->makePathToFixture($file2), $formatter)
         );
     }
 
@@ -33,7 +33,7 @@ class DifferTest extends TestCase
         ];
     }
 
-    public function makePath(string $fileName): string
+    public function makePathToFixture(string $fileName): string
     {
         $parts = [__DIR__, 'fixtures', $fileName];
         return realpath(implode('/', $parts));
