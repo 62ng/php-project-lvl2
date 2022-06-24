@@ -13,12 +13,12 @@ function formatData(array $diffs): string
                 $line = "Property '{$keyPathCurrent}' was";
 
                 return match ($node['type']) {
-                    'nested' => $iter($node['data'], $keyPathCurrent),
+                    'nested' => $iter($node['children'], $keyPathCurrent),
                     'deleted' => $line . ' removed',
-                    'added' => $line . " added with value: " . stringify($node['data']['after']),
+                    'added' => $line . " added with value: " . stringify($node['children']['second']),
                     'changed' => $line . " updated. From "
-                        . stringify($node['data']['before']) . " to "
-                        . stringify($node['data']['after']),
+                        . stringify($node['children']['first']) . " to "
+                        . stringify($node['children']['second']),
                     'unchanged' => '',
                     default => throw new \Exception('Unknown node type!')
                 };

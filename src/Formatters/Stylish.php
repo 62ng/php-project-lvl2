@@ -11,17 +11,17 @@ function formatData(array $diffs): string
         $lines = array_map(
             function ($node) use ($iter, $depth) {
                 return match ($node['type']) {
-                    'nested' => stringify($depth, ' ', $node['key'], $iter($node['data'], $depth + 1)),
+                    'nested' => stringify($depth, ' ', $node['key'], $iter($node['children'], $depth + 1)),
 
-                    'changed' => stringify($depth, '-', $node['key'], $node['data']['before'])
+                    'changed' => stringify($depth, '-', $node['key'], $node['children']['first'])
                         . PHP_EOL
-                        . stringify($depth, '+', $node['key'], $node['data']['after']),
+                        . stringify($depth, '+', $node['key'], $node['children']['second']),
 
-                    'deleted'  => stringify($depth, '-', $node['key'], $node['data']['before']),
+                    'deleted'  => stringify($depth, '-', $node['key'], $node['children']['first']),
 
-                    'unchanged' => stringify($depth, ' ', $node['key'], $node['data']['before']),
+                    'unchanged' => stringify($depth, ' ', $node['key'], $node['children']['first']),
 
-                    'added' => stringify($depth, '+', $node['key'], $node['data']['after']),
+                    'added' => stringify($depth, '+', $node['key'], $node['children']['second']),
 
                     default => throw new \Exception('Unknown node type!')
                 };

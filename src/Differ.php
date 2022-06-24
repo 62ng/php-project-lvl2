@@ -11,10 +11,10 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
     $data1 = getFileData($filePath1);
     $data2 = getFileData($filePath2);
 
-    $content1 = parseData($data1['file'], $data1['extension']);
-    $content2 = parseData($data2['file'], $data2['extension']);
+    $content1 = parseData($data1['file'], $data1['type']);
+    $content2 = parseData($data2['file'], $data2['type']);
 
-    $diffs = iter($content1, $content2);
+    $diffs = makeTree($content1, $content2);
 
     return format($diffs, $formatter);
 }
@@ -25,13 +25,13 @@ function getFileData(string $filePath): array
         throw new \Exception('Incorrect file path!');
     }
 
-    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
     $fileData = (string) file_get_contents($filePath);
 
-    return ['file' => $fileData, 'extension' => $extension];
+    return ['file' => $fileData, 'type' => $fileType];
 }
 
-function iter(array $currentData1, array $currentData2): array
+function makeTree(array $currentData1, array $currentData2): array
 {
     $mergedData = array_merge($currentData1, $currentData2);
     $allKeys = array_keys($mergedData);
@@ -43,7 +43,7 @@ function iter(array $currentData1, array $currentData2): array
             return [
                 'key' => $key,
                 'type' => 'deleted',
-                'data' => ['before' => $currentData1[$key], 'after' => null]
+                'children' => ['first' => $currentData1[$key], 'second' => null]
             ];
         }
 
@@ -51,7 +51,7 @@ function iter(array $currentData1, array $currentData2): array
             return [
                 'key' => $key,
                 'type' => 'added',
-                'data' => ['before' => null, 'after' => $currentData2[$key]]
+                'children' => ['first' => null, 'second' => $currentData2[$key]]
             ];
         }
 
@@ -59,7 +59,7 @@ function iter(array $currentData1, array $currentData2): array
             return [
                 'key' => $key,
                 'type' => 'unchanged',
-                'data' => ['before' => $currentData1[$key], 'after' => null]
+                'children' => ['first' => $currentData1[$key], 'second' => null]
             ];
         }
 
@@ -67,14 +67,14 @@ function iter(array $currentData1, array $currentData2): array
             return [
                 'key' => $key,
                 'type' => 'nested',
-                'data' => iter($currentData1[$key], $currentData2[$key])
+                'children' => makeTree($currentData1[$key], $currentData2[$key])
             ];
         }
 
         return [
             'key' => $key,
             'type' => 'changed',
-            'data' => ['before' => $currentData1[$key], 'after' => $currentData2[$key]]
+            'children' => ['first' => $currentData1[$key], 'second' => $currentData2[$key]]
         ];
     }, $allKeysSorted);
 }
